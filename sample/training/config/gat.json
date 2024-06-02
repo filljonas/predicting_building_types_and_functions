@@ -1,0 +1,22 @@
+{
+    "frac": "0p004",
+    "nodes": 20,
+    "batch_size": 256,
+    "learning_rate": 0.0001,
+    "beta_1": 0.9,
+    "beta_2": 0.999,
+    "scaler_dist": "minmax",
+    "minmax_threshold": 50.0,
+    "fill_value": 1.0,
+    "weight_decay": 0,
+    "dropout_rate": 0.25,
+    "dropout_rate_gat": 0,
+    "leaky_relu_negative_slope": 0.2,
+    "activation_fun": "relu",
+    "hidden_size": 64,
+    "num_gnn_layers": 2,
+    "fcnn_before": true,
+    "fcnn_after": true,
+    "epochs": 200,
+    "heads": 8
+}

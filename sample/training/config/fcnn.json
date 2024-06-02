@@ -1,0 +1,13 @@
+{
+    "frac": "0p004",
+    "nodes": 20,
+    "batch_size": 256,
+    "learning_rate": 0.0001,
+    "beta_1": 0.9,
+    "beta_2": 0.999,
+    "weight_decay": 1e-05,
+    "dropout_rate": 0.35,
+    "hidden_size": 64,
+    "num_layers": 2,
+    "epochs": 200
+}

@@ -1,0 +1,150 @@
+index,building_key,class,numerical_label,description,comment
+0,apartments,apartments,0,"A building arranged into individual dwellings, often on separate floors. May also have retail outlets on the ground floor.",
+1,barracks,apartments,0,Buildings built to house military personnel or laborers.,
+2,dormitory,apartments,0,"A shared building intended for college/university students (not a share room for multiple occupants as implied by the term in British English). Alternatively, use building=residential plus residential=university and loose the information that it is for students.",
+3,detached,detached,1,"A detached house, a free-standing residential building usually housing a single family.",
+4,farm,detached,1,"A residential building on a farm (farmhouse). For other buildings see below building=farm_auxiliary, building=barn,  If in your country farmhouse looks same as general residential house then you can tag as building=house as well. See also landuse=farmyard for the surrounding area",
+5,semidetached_house,semidetached,2,"A residential house that shares a common wall with another on one side. Typically called a ""duplex"" in American English.",
+6,terrace,terrace,3,"A single way used to define the outline of a linear row of residential dwellings, each of which normally has its own entrance, which form a terrace (""row-house"" or ""townhouse"" in North American English). Consider defining each dwelling separately using 'house'.",
+7,house,terrace,3,"A dwelling unit inhabited by a single household (a family or small group sharing facilities such as a kitchen). Houses forming half of a semi-detached pair, or one of a row of terraced houses, should share at least two nodes with joined neighbours, thereby defining the party wall between the properties.",
+8,industrial,industrial,4,A building for industrial purposes. Use warehouse if the purpose is known to be primarily for storage/distribution. Consider using landuse=industrial for the surrounding area and appropriate tags like man_made=works to describe the industrial activity.,
+9,electricity,industrial,4,,"Tag not in OSM guidelines, but the guidlines generally seem to lack buildings related to energy generation. So we include this"
+10,warehouse,industrial,4,A building primarily intended for the storage or goods or as part of a distribution system.,"consideration: not distinguishable from industrial in OSM, therefore assign to industrial category"
+11,hotel,commercial,5,A building designed with separate rooms available for overnight accommodation. Normally used in conjunction with tourism=hotel for the hotel grounds including recreation areas and parking.,
+12,commercial,commercial,5,"A building for non-specific commercial activities, not necessarily an office building. Consider tagging the surrounding area using landuse=commercial if there is such use. Use 'retail' if the building consists primarily of shops.",
+13,kiosk,commercial,5,A small one-room retail building.,
+14,office,commercial,5,An office building. Use office=* where applicable for the business(es) that use the building. Consider tagging the surrounding area using landuse=commercial if it applies. Prefer landuse=retail if the building consists primarily of shops.,
+15,retail,commercial,5,"A building primarily used for selling goods that are sold to the public; use shop=* to identify the sort of goods sold or an appropriate amenity=* (pub, cafe, restaurant, etc.). Consider use landuse=retail for the surrounding area.",
+16,supermarket,commercial,5,A building constructed to house a self-service large-area store.,
+17,religious,public,6,Unspecific building related to religion. Prefer more specific values if possible.,
+18,cathedral,public,6,"A building that was built as a cathedral. Used in conjunction with amenity=place_of_worship, religion=*, denomination=* and landuse=religious for the cathedral grounds where it is in current use.",
+19,chapel,public,6,"A building that was built as a chapel. Used in conjunction with amenity=place_of_worship, religion=*, denomination=* and landuse=religious for the chapel grounds where it is in current use.",
+20,church,public,6,"A building that was built as a church. Used in conjunction with amenity=place_of_worship, religion=* , denomination=* and landuse=religious for the church grounds where it is in current use.",
+21,kingdom_hall,public,6,"A building that was built as a Kingdom Hall. Often used in conjunction with amenity=place_of_worship, religion=christian, denomination=jehovahs_witness and landuse=religious for the grounds where it is in current use.",
+22,monastery,public,6,"A building constructed as monastery. Often, monasteries consist of several distinct buildings with specific functions. For active monasteries (communities), use amenity=monastery, for the grounds of a former monastery, have a look at historic=monastery",
+23,mosque,public,6,"A building errected as mosque. Used in conjunction with amenity=place_of_worship, religion=*, denomination=* and landuse=religious for the grounds where it is in current use.",
+24,presbytery,public,6,A building where priests live and work.,
+25,synagogue,public,6,"A building that was built as a synagogue. Used in conjunction with amenity=place_of_worship, religion=*, denomination=* and landuse=religious for the grounds where it is in current use.",
+26,temple,public,6,"A building that was built as a temple. Used in conjunction with amenity=place_of_worship, religion=*, denomination=* and landuse=religious for the grounds where it is in current use.",
+27,civic,public,6,"A generic tag for a building created to house some civic amenity, for example amenity=community_centre, amenity=library, amenity=toilets, leisure=sports_centre, leisure=swimming_pool, amenity=townhall etc. Use amenity=* or leisure=* etc. to provide further details. See building=public and more specific tags like building=library as well.",
+28,college,public,6,A college building. Use amenity=college on the whole college area to represent the college as an institution.,
+29,fire_station,public,6,"	A building constructed as fire station, i.e. to house fire fighting equipment and officers, regardless of current use. Add amenity=fire_station on the grounds for an active fire station.",
+30,government,public,6,"For government buildings in general, including municipal, provincial and divisional secretaries, government agencies and departments, town halls, (regional) parliaments and court houses.",
+31,gatehouse,public,6,"An entry control point building, spanning over a highway that enters a city or compound.",
+32,hospital,public,6,A building errected for a hospital. Use amenity=hospital for the hospital grounds.,
+33,kindergarten,public,6,"For any generic kindergarten buildings. Buildings for specific uses (sports halls etc.) should be tagged for their purpose. If there is currently a kindergarten in the building, use amenity=kindergarten on the perimeter of the kindergarten grounds.",
+34,museum,public,6,A building which was designed as a museum.,
+35,public,public,6,"A building constructed as accessible to the general public (a town hall, police station, court house, etc.).",
+36,school,public,6,"A building errected as school. Buildings for specific uses (sports halls etc.) should be tagged for their purpose. If there is currently a school, use amenity=school on the perimeter of the school grounds.",
+37,toilets,public,6,A toilet block.,
+38,train_station,public,6,"A building constructed to be a train station building, including buildings that are abandoned and used nowadays for a different purpose.",
+39,transportation,public,6,"A building related to public transport. You will probably want to tag it with proper transport related tag as well, such as public_transport=station. Note that there is a special tag for train station buildings - building=train_station.",
+40,university,public,6,A university building. Use amenity=university for the university as an institution.,
+41,grandstand,public,6,"The main stand, usually roofed, commanding the best view for spectators at racecourses or sports grounds.",sports
+42,riding_hall,public,6,A building that was built as a riding hall.,sports
+43,sports_hall,public,6,A building that was built as a sports hall.,sports
+44,sports_centre,public,6,A building that was built as a sports centre.,sports
+45,stadium,public,6,"A building constructed to be a stadium building, including buildings that are abandoned and used nowadays for a different purpose.",sports
+46,barn,agricultural,7,An agricultural building that can be used for storage and as a covered workplace.,
+47,cowshed,agricultural,7,"A cowshed (cow barn, cow house) is a building for housing cows, usually found on farms.",
+48,farm_auxiliary,agricultural,7,A building on a farm that is not a dwelling (use 'farm' or 'house' for the farm house).,
+49,greenhouse,agricultural,7,A greenhouse is a glass or plastic covered building used to grow plants. Use landuse=greenhouse_horticulture for an area containing multiple greenhouses,
+50,slurry_tank,agricultural,7,A circular building built to hold a liquid mix of primarily animal excreta (also known as slurry).,
+51,stable,agricultural,7,A building constructed as a stable for horses.,
+52,sty,agricultural,7,"A sty (pigsty, pig ark, pig-shed) is a building for raising domestic pigs, usually found on farms.",
+53,livestock,agricultural,7,"A building for housing/rising other livestock (apart from cows, horses or pigs covered above), or when the livestock changes.",
+54,service,other,8,Service building usually is a small unmanned building with certain machinery (like pumps or transformers).,
+55,allotment_house,other,8,A small outbuilding for short visits in a allotment garden.,storage
+56,boathouse,other,8,A boathouse is a building used for the storage of boats.,storage
+57,hangar,other,8,"A hangar is a building used for the storage of airplanes, helicopters or space-craft. Consider adding aeroway=hangar, when appropriate.",storage
+58,shed,other,8,"A shed is a simple, single-storey structure in a back garden or on an allotment that is used for storage, hobbies, or as a workshop.",storage
+59,carport,other,8,"A carport is a covered structure used to offer limited protection to vehicles, primarily cars, from the elements. Unlike most structures a carport does not have four walls, and usually has one or two.",cars
+60,garage,other,8,"	A garage is a building suitable for the storage of one or possibly more motor vehicle or similar. See building=garages for larger shared buildings. For an aircraft garage, see building=hangar.",cars
+61,garages,other,8,A building that consists of a number of discrete storage spaces for different owners/tenants. See also building=garage.,cars
+62,outbuilding,other,8,A less important building near to and on the same piece of land as a larger building.,other
+63,beach_hut,other,8,"A small, usually wooden, and often brightly coloured cabin or shelter above the high tide mark on popular bathing beaches.",other
+64,container,other,8,"For a container used as a permanent building. Do not map containers placed temporarily, for example used in shipping or construction.",other
+65,residential,unknown,9,"A general tag for a building used primarily for residential purposes. Where additional detail is available consider using 'apartments', 'terrace', 'house', 'detached' or 'semidetached_house'.",
+66,bungalow,unknown,9,"A single-storey detached small house, Dacha.","Assumption: could be residential, but may be not"
+67,cabin,unknown,9,"A cabin is a small, roughly built house usually with a wood exterior and typically found in rural areas.","Assumptions: often non-residential, but could also be residential"
+68,ger,unknown,9,A permanent or seasonal round yurt or ger.,"This is too specific, therefore we consider it an unknown building function"
+69,houseboat,unknown,9,A boat used primarily as a home,"This is too specific, therefore we consider it an unknown building function"
+70,static_caravan,unknown,9,A mobile home (semi)permanently left on a single site,"This is too specific, therefore we consider it an unknown building function"
+71,stilt_house,unknown,9,"A hut is a small and crude shelter. Note that this word has two meanings - it may be synonym of building=shed, it may be a residential building of low quality.","This is too specific, therefore we consider it an unknown building function"
+72,hut,unknown,9,A building raised on piles over the surface of the soil or a body of water,"This is too specific, therefore we consider it an unknown building function"
+73,tree_house,unknown,9,"An accommodation, often designed as a small hut, sometimes also as a room or small apartment. Built on tree posts or on a natural tree. A tree house has no contact with the ground. Access via ladders, stairs or bridgeways.","This is too specific, therefore we consider it an unknown building function"
+74,trullo,unknown,9,A stone hut with a conical roof.,"This is too specific, therefore we consider it an unknown building function"
+75,shrine,unknown,9,"A building that was built as a shrine. Used in conjunction with amenity=place_of_worship, religion=*, denomination=* and landuse=religious for the grounds where it is in current use. Small structures should consider historic=wayside_shrine.","This is too specific, therefore we consider it an unknown building function"
+76,bakehouse,unknown,9,A building that was built as a bakehouse (i.e. for baking bread). Often used in conjunction with another node amenity=baking_oven and oven=wood_fired.,"This is too specific, therefore we consider it an unknown building function"
+77,bridge,unknown,9,A building used as a bridge (skyway). To map a gatehouse use building=gatehouse. See also bridge=yes for highway=*. Don't use this tag just for marking bridges (their outlines). For such purposes use man_made=bridge.,"This is too specific, therefore we consider it an unknown building function"
+78,conservatory,unknown,9,A building or room having glass or tarpaulin roofing and walls used as an indoor garden or a sunroom (winter garden).,"This is too specific, therefore we consider it an unknown building function"
+79,pavilion,unknown,9,"A sports pavilion usually with changing rooms, storage areas and possibly an space for functions & events. Avoid using this term for other structures called pavilions by architects (see [W] Pavilion)","This is too specific, therefore we consider it an unknown building function"
+80,parking,unknown,9,Structure purpose-built for parking cars.,"Problem: parking houses can be seen as public buildings, but are not always public. Also, the energy demand of them is likely quite special. Therefore, they are too specific classes of buildings for our classification"
+81,transformer_tower,unknown,9,A transformer tower is a characteristic tall building comprising a distribution transformer and constructed to connect directly to a medium voltage overhead power line. Quite often the power line has since been undergrounded but the building may still serve as a substation. If the building is still in use as a substation it should additionally be tagged as power=substation + substation=minor_distribution.,"This is too specific, therefore we consider it an unknown building function"
+82,tech_cab,unknown,9,Small prefabricated cabin structures for the air-conditioned accommodation of different technology.,"This is too specific, therefore we consider it an unknown building function"
+83,water_tower,unknown,9,A water tower.,"This is too specific, therefore we consider it an unknown building function"
+84,storage_tank,unknown,9,Storage tanks are containers that hold liquids,"This is too specific, therefore we consider it an unknown building function"
+85,silo,unknown,9,A silo is a building for storing bulk materials,"This is too specific, therefore we consider it an unknown building function"
+86,bunker,unknown,9,A hardened military building. Also use military=bunker.,"This is too specific, therefore we consider it an unknown building function"
+87,castle,unknown,9,A building constructed as a castle. Can be further specified with historic=castle + castle_type=*.,"Castles can be partly residential, or public. So an assignment to the categories is not possible."
+88,digester,unknown,9,A digester is a bioreactor for the production of biogas from biomass.,"Digesters can be either agricultural or industrial. Therefore, they are not suitable for the model."
+89,construction,unknown,9,Used for buildings under construction. Use construction=* to hold the value for the completed building.,Buildings under constructions cannot be assigned to our classes.
+90,guardhouse,unknown,9,A small building constructed to house guard(s).,"This is too specific, therefore we consider it an unknown building function"
+91,military,unknown,9,A military building. Also use military=*.,"Could be barrack, hanger basically everything. So assignment to classes not possible."
+92,pagoda,unknown,9,A building constructed as a pagoda.,Not relevant in Europe
+93,quonset_hut,unknown,9,A lightweight prefabricated structure in the shape of a semicircle.,"This is too specific, therefore we consider it an unknown building function"
+94,roof,unknown,9,"A structure that consists of a roof with open sides, such as a rain shelter, and also gas stations","Could be rain shelder, gas station -> assignment to classes not possible"
+95,ruins,unknown,9,"Frequently used for a house or other building that is abandoned and in poor repair. However, some believe this usage is incorrect, and the tag should only be used for buildings constructed as fake ruins (for example sham ruins in an English landscape garden). See also lifecycle tagging.",Ruins can likely not be recognized by model.
+96,tent,unknown,9,For a permanently placed tent. Do not map tents placed temporarily.,"This is too specific, therefore we consider it an unknown building function"
+97,tower,unknown,9,A tower-building.,Ambiguous => Cannot be assigned to classes
+98,windmill,unknown,9,"A building constructed as a traditional windmill, historically used to mill grain with wind power.","This is too specific, therefore we consider it an unknown building function"
+99,manufacture,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+100,factory,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+101,duplex,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+102,dwelling_house,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+103,semi,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+104,apartment_building,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+105,detached_house,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+106,mobile_home,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+107,terraced_house,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+108,depot,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+109,shop,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+110,store,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+111,community_centre,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+112,wayside_shrine,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+113,education,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+114,agricultural,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+115,horsewalker,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+116,glasshouse,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+117,mink_shed,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+118,dovecote,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+119,hay_barn,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+120,shelter,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+121,annexe,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+122,gazebo,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+123,allotment,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+124,collapsed,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+125,pajaru,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+126,veranda,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+127,storage,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+128,summer_house,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+129,no,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+130,summer_cottage,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+131,sport,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+132,manor,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+133,chalet,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+134,hayrack,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+135,utility,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+136,arbour,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+137,balcony,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+138,canopy,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+139,cladire,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+140,minor,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+141,block,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+142,wall,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+143,porch,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+144,proposed,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+145,tipi,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+146,abandoned,unknown,9,,Tag not in the OSM guidelines -> probably low accuracy
+147,unknown,unknown,9,,
+148,yes,unknown,9,Use this value where it is not possible to determine a more specific value.,

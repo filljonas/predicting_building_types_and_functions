@@ -1,0 +1,8 @@
+{
+    "frac": "0p004",
+    "nodes": 20,
+    "criterion": "gini",
+    "max_depth": 3,
+    "min_weight_fraction_leaf": 0,
+    "class_weight": null
+}
