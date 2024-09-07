@@ -8,13 +8,47 @@ The scripts can be easily executed for smaller extracts (like a single city). Fo
 
 ## Installation
 
-This repository uses Anaconda for package management. First, download and install [Anaconda](https://www.anaconda.com/download/) from the official website.
+### Setup virtual Environment
 
-To create an environment with the required packages, open the Anaconda Prompt, navigate to the repository folder, and execute:
+This repository uses pip for package management. First, create a virtual environment:
 
-```jsx
-conda env create -f environment.yml
-```
+`python3 -m venv venv`
+
+Activate virtual environment on Windows:
+
+`venv\Scripts\Activate.ps1`
+
+Activate virtual environment on Linux/MacOS:
+
+`source venv/bin/activate`
+
+Install requirements:
+
+`pip install -r requirements.txt`
+
+### Install PyTorch
+
+CPU version:
+
+`pip3 install torch==2.3.1`
+
+CUDA version:
+
+`pip3 install torch==2.3.1 --index-url https://download.pytorch.org/whl/cu121`
+
+### Install PyTorch Geometric
+
+Dependencies (CPU version):
+
+`pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.3.0+cpu.html`
+
+Dependencies (CUDA version):
+
+`pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.3.0+cu121.html`
+
+Library:
+
+`pip install torch_geometric`
 
 ## Import datasets to PostgreSQL
 
@@ -95,9 +129,9 @@ ogr2ogr -progress -f "PostgreSQL" PG:"host=localhost  dbname=osm  user=postgres 
 
 ### Import mapping tables to PostgreSQL
 
-This study uses a mapping from OSM building classes and UA/CLC land use classes to custom classes. In the folder `sample/db_setup` we provide a notebook `csv_to_sql.ipynb` that loads the CSV-files with the mappings into PostgreSQL.
+This study uses a mapping from OSM building classes and UA/CLC land use classes to custom classes. In the folder `sample/db_setup` we provide a script `csv_to_sql.py` that loads the CSV-files with the mappings into PostgreSQL.
 
-**This notebooks needs to be executed for the rest of the scripts to run.**
+**This script needs to be executed for the rest of the code to run.**
 
 ## Feature engineering
 

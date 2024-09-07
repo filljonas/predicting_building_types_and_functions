@@ -41,13 +41,13 @@ def one_hot_encoding(dataset, col_name, group_name):
     return dataset
 
 
-def scale_node_features(dataset, deployment, dataset_name):
+def scale_node_features(dataset, deployment, type):
     """
     Scaling for the node features
     :param dataset: dataframe with the dataset
     :param deployment: are we in deployment mode (if so, we have to use the same scaling parameters that were used
     while training the model)
-    :param dataset_name: name of the dataset
+    :param type: type of subgraph: `circ` or `n_hop`
     """
     features_to_normalize = fn.feature_groups_names['Building-level features'] + fn.feature_groups_names['Block-level features']
     dataset_cols_to_normalize = dataset[features_to_normalize]
@@ -63,10 +63,10 @@ def scale_node_features(dataset, deployment, dataset_name):
             var.append(scaler.var_[0])
         # Write standardization parameters to JSON for later use during deployment
         data = {'mean': mean, 'std': std, 'var': var}
-        with open(f'../scaling_parameters/{dataset_name}.json', 'w') as json_file:
+        with open(f'../scaling_parameters/{type}.json', 'w') as json_file:
             json.dump(data, json_file)
     else:
-        with open('../scaling_parameters/pyg_ds.json', 'r') as json_file:
+        with open('../scaling_parameters/_frac_0p004_nodes_20.json', 'r') as json_file:
             data = json.load(json_file)
         # Extract the lists from the loaded dictionary
         mean = data['mean']
@@ -89,18 +89,16 @@ def scale_edge_weights(dataset):
     edge_weights = dataset['distance']
     scaler = sklearnpp.StandardScaler()
     dataset['distance_std'] = scaler.fit_transform(edge_weights.values.reshape(-1, 1))
-    scaler = sklearnpp.RobustScaler()
-    dataset['distance_rob'] = scaler.fit_transform(edge_weights.values.reshape(-1, 1))
     return dataset
 
 
-def preprocess_nodes(dataset, deployment, dataset_name):
+def preprocess_nodes(dataset, deployment, type):
     """
     Data scaling and one-hot encoding for all node features
     :param dataset: dataframe with the dataset
     :param deployment: are we in deployment mode (if so, we have to use the same scaling parameters that were used
     while training the model)
-    :param dataset_name: name of the dataset
+    :param type: type of subgraph: `circ` or `n_hop`
     :return: new dataframe with scaled node features
     """
     # Compute one hot encodings for categorical input features
@@ -108,7 +106,7 @@ def preprocess_nodes(dataset, deployment, dataset_name):
     dataset = one_hot_encoding(dataset, 'degurba', 'Urbanization indicators')
     dataset = one_hot_encoding(dataset, 'country', 'Country indicators')
     # Perform scaling for numerical input features
-    scale_node_features(dataset, deployment, dataset_name)
+    scale_node_features(dataset, deployment, type)
     return dataset
 
 
