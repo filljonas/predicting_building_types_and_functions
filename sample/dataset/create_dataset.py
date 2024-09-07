@@ -44,12 +44,7 @@ def create_tables(type):
         db.execute_statement(sqlds.create_tables_circ)
 
 
-def create_dataset():
-    type = 'circ'
-    subsample_fraction = 0.004
-    num_layers = 4
-    buildings_in_graph = 20
-    x_min, x_max, y_min, y_max = 11.53187, 11.6785, 48.1599, 48.23839
+def create_dataset(type, subsample_fraction, num_layers, buildings_in_graph, x_min, x_max, y_min, y_max):
     # Create functions
     create_functions()
     # Create tables
@@ -58,12 +53,4 @@ def create_dataset():
     db.execute_statement(sqlds.perform_computations(subsample_fraction, num_layers, buildings_in_graph, type,
                                                     x_min, x_max, y_min, y_max))
     drop_functions()
-
-
-if __name__ == '__main__':
-    start = time.time()
-    create_dataset()
-    end = time.time()
-    formatted_time = str(dt.timedelta(seconds=end - start))
-    print(f'Time to create dataset: {formatted_time}')
 

@@ -1,3 +1,11 @@
+"""
+ |---------------------------------------------------------------------------------------------------------------------|
+ | Create sequential IDs for DB tables.
+ | Particularly necessary if features are computed in a parallelized manner
+ | -> we need sequential IDs in the end.
+ |---------------------------------------------------------------------------------------------------------------------|
+"""
+
 node_features_sequential_id_n_hop = f'''          
     DROP TABLE IF EXISTS public.node_features_sequential_id;
     CREATE TABLE public.node_features_sequential_id AS (
@@ -35,7 +43,7 @@ node_features_sequential_id_n_hop = f'''
                 ROW_NUMBER() OVER() - 1 AS new_id
         FROM (
             SELECT *
-            FROM public.node_features_with_labels_nhop
+            FROM public.node_features_with_labels_n_hop
             ORDER BY id
         ) a
     );
@@ -108,7 +116,7 @@ edges_sequential_id_n_hop = f'''
         SELECT b.new_id AS start_id,
                c.new_id AS end_id,
                a.distance
-        FROM public.edges_nhop a
+        FROM public.edges_n_hop a
         JOIN (
             SELECT *
             FROM public.node_features_sequential_id

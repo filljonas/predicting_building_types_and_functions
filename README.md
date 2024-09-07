@@ -2,7 +2,7 @@
 
 ## Aim of this repository
 
-The repository allows reproducing the feature engineering and ML model training from my Master’s thesis *Predicting Building Types and Functions at Transnational Scale.* First, we provide an instruction for importing the required datasets into a PostgreSQL database. Second, we provide scripts to perform feature engineering and to build a graph-structured building dataset. Third, we provide code to train GNN/ML models on this dataset with *PyTorch Geometric*.
+The repository allows reproducing the feature engineering and ML model training from the paper *Predicting Building Types and Functions at Transnational Scale* First, we provide an instruction for importing the required datasets into a PostgreSQL database. Second, we provide scripts to perform feature engineering and to build a graph-structured building dataset. Third, we provide code to train GNN/ML models on this dataset with *PyTorch Geometric*.
 
 The scripts can be easily executed for smaller extracts (like a single city). For larger extracts or European scope, specialized hardware and/or additional parallelization techniques may be necessary.
 
@@ -141,8 +141,7 @@ To perform feature engineering and data preprocessing, execute the script `datas
 - Arrange buildings/nodes as a graph structure
 
 <aside>
-💡 The result from these steps is saved in the form of PostgreSQL tables. The graph-structured dataset can be visualized in the software QGIS if desired. For this purpose, execute the SQL-statements in the script `qgis_visualization.sql` in the folder `sample/dataset`.
-
+💡 The result from these steps is saved in the form of PostgreSQL tables.
 </aside>
 
 The script also creates a graph dataset suitable for *PyTorch Geometric* in the folder `sample/dataset/pyg_ds`.
@@ -150,26 +149,37 @@ The script also creates a graph dataset suitable for *PyTorch Geometric* in the 
 At the top of the script, you can change the following variables:
 
 - `x_min, x_max, y_min, y_max:` Define the coordinates of your geographic extract you want to consider. Note that all datasets you downloaded/imported must be available for the entire extract.
-- `min_nodes_per_graph:` Every graph in the dataset roughly consists of the same number of buildings. Set the minimum number of buildings in a graph. For example, if you set this variable to 20, all graphs will contain at least 20 nodes. Some will contain a bit more (depending on the circular buffers around buildings), but there will not be many graphs with significantly more than 20 nodes.
+- `type`: Localized subgraph generation method. `circ`: distance-based subgraphs created with circular buffers, `n_hop`: subgraphs based on N hops in the graph
+- `buildings_in_graph:` Setting that applies to the `circ` method. Every graph in the dataset roughly consists of the same number of buildings. Set the minimum number of buildings in a graph. For example, if you set this variable to 20, all graphs will contain at least 20 nodes. Some will contain a bit more (depending on the circular buffers around buildings), but there will not be many graphs with significantly more than 20 nodes.
 - `subsample_fraction:` In our approach, graphs are created around labeled OSM buildings. Depending on the size of your extract, you might not want to create graphs around all labeled buildings. Set this variable to a fraction in `(0, 1)` to only create graphs around a random subset of the labeled nodes.
+- `num_layers`: Setting that applied to the `n_hop` method. Number of hops the created dataset has.
 
 ## Training GNN/Machine Learning models
 
-After you created a dataset, you can train a machine learning classifier on this dataset. For this purpose, we provide the notebook `train_classifier.ipynb` in the folder `sample/training`. The notebook will:
+After you created a dataset, you can train a machine learning classifier on this dataset. For this purpose, we provide the script `train_classifier.py` in the folder `sample/training`.
+
+Run it on Windows via:
+
+`python .\sample\training\train_classifier.py <model_type>`
+
+Run it on Linux/MacOS via:
+
+`python3 ./sample/training/train_classifier.py <model_type>`
+
+The parameter `<model_type>` changes the classifier model used for training. We support the following model types:
+
+- `dt` (Decision tree)
+- `rf` (Random forest)
+- `fcnn` (Fully connected neural network)
+- `gcn` (Graph convolutional network)
+- `sage` (GraphSAGE)
+- `gat` (Graph attention network)
+- `transformer` (Graph transformer)
+
+The script will:
 
 - Split the dataset into a training, validation and test set
-- Remove some of the labels from validation and test set as described in Section 5.1.3. in the thesis
+- Remove some of the labels from validation and test set as described in Section 5.1.3. in the paper
 - Train a GNN or classical ML model
 
-At the top of the notebook, you can select the type of the machine learning model. We support the following model types:
-
-- `dt` (Decision Tree)
-- `rf` (Random Forest)
-- `fcnn` (Fully-Connected Neural Network)
-- `gcn` (Graph Convolutional Network)
-- `gat` (Graph Attention Network)
-- `transformer` (Graph Transformer)
-
-In the folder `sample/training/config` you find JSON-files to control the hyperparameter of the models.
-
-After training, you can use the notebook `test_classifier.ipynb` to evaluate model performance on the test set.
+In the folder `sample/training/config` you find JSON-files to control the hyperparameter of the models (and general parameters related to the creation of localized subgraphs).

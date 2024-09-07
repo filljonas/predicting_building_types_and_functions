@@ -12,10 +12,10 @@ import tqdm
 import sample.util.class_names as cn
 
 
-def evaluate(dataloader, model, device, loss_fn, all, epoch,
-                     model_type):
+def evaluate_and_log(dataloader, model, device, loss_fn, all, epoch,
+                     model_type, mode, config):
     """
-    Evaluate classifier
+    Evaluate classifier and log results
     :param dataloader: dataloader for evaluation
     :param model: classifier model
     :param device: CPU or GPU
@@ -23,29 +23,33 @@ def evaluate(dataloader, model, device, loss_fn, all, epoch,
     :param all: true -> log all metrics, false -> log most important metrics
     :param epoch: current epoch
     :param model_type: which kind of classifier? (ex. GAT)
+    :param mode: `train`: training, `val`: validation, `test`: test
+    :param config: various hyperparameters
     :return: model predictions, validation loss
     """
     if model_type == 'fcnn':
         evaluate_fun = evaluate_fcnn
-    elif model_type in ['gcn', 'graphsage', 'gat', 'transformer']:
+    elif model_type in ['gcn', 'gat', 'transformer', 'sage']:
         evaluate_fun = evaluate_gnn
     elif model_type in ['dt', 'rf']:
         evaluate_fun = evaluate_tree
     # Get model predictions
-    y_predict, y, loss_val = evaluate_fun(dataloader, model, device, loss_fn)
+    y_predict, y, loss_val = evaluate_fun(dataloader, model, device, loss_fn, mode, config)
     # During training, only compute the most important metrics to get an understanding of the validation performance.
     # After training, compute detailed performance metrics (ex. F1 score per individual class).
-    compute_and_log_metrics(y_predict, y, epoch, loss_val, all, model_type)
+    compute_and_log_metrics(y_predict, y, epoch, loss_val, all, model_type, mode)
     return y_predict, loss_val
 
 
-def evaluate_tree(dataloader, model, device, loss_fn):
+def evaluate_tree(dataloader, model, device, loss_fn, mode, config):
     """
     Evaluate tree-base classifier
     :param dataloader: dataloader for evaluation
     :param model: classifier model
     :param device: CPU or GPU
     :param loss_fn: loss function
+    :param mode: `val`: validation, `test`: test
+    :param config: various hyperparameters
     :return: model predictions, ground truth, _
     """
     x, y = dataloader
@@ -53,13 +57,15 @@ def evaluate_tree(dataloader, model, device, loss_fn):
     return y_predict.tolist(), y.tolist(), None
 
 
-def evaluate_fcnn(dataloader, model, device, loss_fn):
+def evaluate_fcnn(dataloader, model, device, loss_fn, mode, config):
     """
     Evaluate FCNN classifier
     :param dataloader: dataloader for evaluation
     :param model: classifier model
     :param device: CPU or GPU
     :param loss_fn: loss function
+    :param mode: `val`: validation, `test`: test
+    :param config: various hyperparameters
     :return: model predictions, ground truth, test loss
     """
     num_batches = len(dataloader)
@@ -81,13 +87,15 @@ def evaluate_fcnn(dataloader, model, device, loss_fn):
     return y_predict_all, y_all, test_loss
 
 
-def evaluate_gnn(dataloader, model, device, loss_fn):
+def evaluate_gnn(dataloader, model, device, loss_fn, mode, config):
     """
     Evaluate GNN classifier
     :param dataloader: dataloader for evaluation
     :param model: classifier model
     :param device: CPU or GPU
     :param loss_fn: loss function
+    :param mode: `val`: validation, `test`: test
+    :param config: various hyperparameters
     :return: model predictions, ground truth, test loss
     """
     num_batches = len(dataloader)
@@ -101,8 +109,17 @@ def evaluate_gnn(dataloader, model, device, loss_fn):
             batch = batch.to(device)
             # Get predictions of current batch
             y_pred = model(batch)
-            # Compute loss of current barch
-            mask = batch.label_mask & batch.usable_label
+            # Compute loss of current batch
+            if config.only_center_labels:
+                mask = torch.zeros(batch.label_mask.size(0), dtype=torch.bool)
+                mask[:batch.batch_size] = True
+            else:
+                if mode == 'train':
+                    mask = batch.label_mask_train
+                elif mode == 'val':
+                    mask = batch.label_mask_val
+                elif mode == 'test':
+                    mask = batch.label_mask_test
             test_loss += loss_fn(y_pred[mask], batch.y[mask]).item()
             y_predict_all.extend(y_pred[mask].argmax(1).tolist())
             y_all.extend(batch.y[mask].tolist())
@@ -133,7 +150,7 @@ def compute_metrics(y, y_predict, all):
         return accuracy_score, macro_f1_score
 
 
-def compute_and_log_metrics(y_predict, y, epoch, loss_val, all, model_type):
+def compute_and_log_metrics(y_predict, y, epoch, loss_val, all, model_type, mode):
     """
     Compute evaluation metrics for different class distinctions
     :param y_predict: model predictions
@@ -142,6 +159,7 @@ def compute_and_log_metrics(y_predict, y, epoch, loss_val, all, model_type):
     :param loss_val: loss
     :param all: true -> log all metrics, false -> log most important metrics
     :param model_type: which kind of classifier? (ex. GAT)
+    :param mode: training or validation mode?
     """
     # Convert lists to NumPy arrays to be able to create masks
     y_predict = np.array(y_predict)
@@ -151,11 +169,19 @@ def compute_and_log_metrics(y_predict, y, epoch, loss_val, all, model_type):
         compute_and_log_metrics_res_nonres(y, y_predict)
         compute_and_log_metrics_restypes_nonres(y, y_predict)
     else:
-        if model_type in ['fcnn', 'gcn', 'gat', 'transformer']:
+        if model_type in ['fcnn', 'gcn', 'gat', 'transformer', 'sage']:
+            if mode == 'train':
+                long_mode = 'Training'
+            elif mode == 'val':
+                long_mode = 'Validation'
             # Compute evaluation metrics
             accuracy_score, macro_f1_score = compute_metrics(y, y_predict, all)
-            print(f'Validation Metrics: Avg loss: {loss_val:>8f}, Accuracy score: {accuracy_score}, '
-                  f'Macro F1 Score: {macro_f1_score} \n')
+            print(f'{long_mode} Metrics: Avg loss: {loss_val:>8f}, Accuracy score: {accuracy_score}, '
+                  f'Macro F1 score: {macro_f1_score} \n')
+        elif model_type in ['dt', 'rf']:
+            accuracy_score, macro_f1_score = compute_metrics(y, y_predict, all)
+            print(f'Accuracy score train: {accuracy_score}')
+            print(f'Macro F1 score train: {macro_f1_score}')
 
 
 def compute_and_log_metrics_all_classes(y, y_predict):

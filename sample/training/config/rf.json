@@ -1,9 +1,8 @@
 {
-    "frac": "0p004",
-    "nodes": 20,
     "criterion": "gini",
     "max_depth": 30,
     "max_features": 9,
-    "n_estimators": 30,
-    "class_weight": null
+    "n_estimators": 5,
+    "class_weight": null,
+    "n_jobs": 8
 }

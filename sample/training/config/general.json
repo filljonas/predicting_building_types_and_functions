@@ -1,0 +1,5 @@
+{
+    "only_center_labels": false,
+    "subgraph_type": "n_hop",
+    "hops": 2
+}

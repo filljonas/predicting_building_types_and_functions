@@ -19,8 +19,7 @@ pd.options.mode.copy_on_write = True
 
 
 class GNNDataset(torch_geometric.data.InMemoryDataset):
-    def __init__(self, root, dataset_name, type):
-        self.dataset_name = dataset_name
+    def __init__(self, root, type):
         self.include_edges = True
         self.type = type
         super().__init__(root)
@@ -97,16 +96,3 @@ class GNNDataset(torch_geometric.data.InMemoryDataset):
                                              osm_id=osm_id, hop=hop, center_id=center_id, lon=lon, lat=lat)
         data_list = [data]
         self.save(data_list, self.processed_paths[0])
-        """
-        The test dataset contains the following regions:
-        Innsbruck, Bergen, Freising, Toulouse
-        """
-
-
-if __name__ == '__main__':
-    start = time.time()
-    type = 'n_hop'
-    GNNDataset(f'./{type}/', 'dataset_4hops', type)
-    end = time.time()
-    formatted_time = str(dt.timedelta(seconds=end - start))
-    print(f'Time to create dataset: {formatted_time}')

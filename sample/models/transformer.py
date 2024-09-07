@@ -62,8 +62,6 @@ class GraphTransformer(torch.nn.Module):
     def forward(self, data):
         if self.config.scaler_dist == 'std':
             x, edge_index, distance = data.x, data.edge_index, data.distance_std
-        elif self.config.scaler_dist == 'rob':
-            x, edge_index, distance = data.x, data.edge_index, data.distance_rob
         elif self.config.scaler_dist == 'minmax':
             x, edge_index, distance = data.x, data.edge_index, data.distance
             distance = 1 - (distance / self.config.minmax_threshold)
