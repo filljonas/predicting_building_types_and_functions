@@ -4,10 +4,7 @@ Load OSM, Urban Atlas and CLC class mappings into PostgreSQL
 
 import sys
 sys.path.append('../../')
-
-import numpy as np
 import pandas as pd
-from sqlalchemy.sql import text
 
 import sample.db_interaction as db
 

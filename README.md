@@ -2,9 +2,9 @@
 
 ## Aim of this repository
 
-The repository allows reproducing the feature engineering and ML model training from the paper *Predicting Building Types and Functions at Transnational Scale* First, we provide an instruction for importing the required datasets into a PostgreSQL database. Second, we provide scripts to perform feature engineering and to build a graph-structured building dataset. Third, we provide code to train GNN/ML models on this dataset with *PyTorch Geometric*.
+The repository contains the code from the paper *Predicting Building Types and Functions at Transnational Scale*. First, we provide an instruction for importing the required datasets into a PostgreSQL database. Second, we provide scripts to perform feature engineering and to build a graph-structured building dataset. Third, we provide code to train GNN/ML models on this dataset with *PyTorch Geometric*.
 
-The scripts can be easily executed for smaller extracts (like a single city). For larger extracts or European scope, specialized hardware and/or additional parallelization techniques may be necessary.
+Execution for smaller extracts (like single cities) is straightforward. Execution for larger extracts (like the European pan-European one from the paper) is also possible, but comes with rather high computational costs.
 
 ## Installation
 
@@ -52,16 +52,16 @@ Library:
 
 ## Import datasets to PostgreSQL
 
-The raw data from input datasets (like *OpenStreetMap*) is imported into a PostgreSQL database for preprocessing. In the following, we provide an instruction for importing the datasets.
+The raw data from input datasets (like *OpenStreetMap*) is imported into a PostgreSQL database for preprocessing. In the following, we provide an instruction for importing the datasets. The DEGURBA and country borders datasets are included in this repository. The OSM and land use datasets are not included due to space constraints, we rather provide downloading instructions.
 
 ### Import OpenStreetMap data to PostgreSQL
 
 To import *OpenStreetMap (OSM)* data to PostgreSQL, follow these steps:
 
-- Download OSM data for your desired spatial extract from [Geofabrik](https://download.geofabrik.de/europe/germany/bayern.html).
-- Download and install [PostgreSQL](https://www.postgresql.org/download/windows/) for your operating system. Make sure to also install *StackBuilder* (it is installed by default together with PostgreSQL).
+- Download OSM data for the desired spatial extract from [Geofabrik](https://download.geofabrik.de/europe/germany/bayern.html).
+- Download and install [PostgreSQL](https://www.postgresql.org/download/windows/). Also install *StackBuilder* (it is installed by default together with PostgreSQL).
 After the installation wizard finished, launch *StackBuilder* to install PostGIS (Category: Spatial Extensions)
-- Download and install [osm2pgsql](https://osm2pgsql.org/doc/install/windows.html) for your operating system. Add an environement variable in order to use the tool in the terminal, as explained [here](https://learnosm.org/en/osm-data/osm2pgsql/).
+- Download and install [osm2pgsql](https://osm2pgsql.org/doc/install/windows.html). Add an environement variable in order to use the tool in the terminal, as explained [here](https://learnosm.org/en/osm-data/osm2pgsql/).
 - Create a database named `osm` in PostgreSQL (e.g. as explained [here](https://learnosm.org/en/osm-data/postgresql/)) and create the extensions `postgis` and `hstore` for this database.
 - Run the following command in order to import OSM data into the PostgreSQL database:
     
@@ -85,8 +85,8 @@ After the installation wizard finished, launch *StackBuilder* to install PostGIS
 
 Land use data from the *Urban Atlas* is available in many large cities and urban areas in Europe. To import UA data to PostgreSQL, follow these steps:
 
-- Download the [Urban Atlas](https://land.copernicus.eu/en/products/urban-atlas/urban-atlas-2018) dataset for the desired area(s). You will obtain a *GeoPackage (GPKG)* file for each area.
-- To import a GeoPackage file into PostgreSQL, download and install [QGIS](https://qgis.org/en/site/forusers/download.html). This will also install the *OSGeo4W Shell* on your system. Open the shell and execute the following command:
+- Download the [Urban Atlas](https://land.copernicus.eu/en/products/urban-atlas/urban-atlas-2018) dataset for the desired area(s). One will obtain a *GeoPackage (GPKG)* file for each area.
+- To import a GeoPackage file into PostgreSQL, download and install [QGIS](https://qgis.org/en/site/forusers/download.html). This will also install the *OSGeo4W Shell* on the system. Open the shell and execute the following command:
     
     ```jsx
     ogr2ogr -progress -f "PostgreSQL" PG:"host=localhost  dbname=osm  user=postgres password=<your_superuser_password>" -nln public.urban_atlas <path_to_gpkg>
@@ -95,13 +95,11 @@ Land use data from the *Urban Atlas* is available in many large cities and urban
 
 **Corine Land Cover (CLC):**
 
-In case you want to include areas that are not covered by the Urban Atlas, you can download [CLC](https://land.copernicus.eu/en/products/corine-land-cover/clc2018).
+In case one wants to include areas that are not covered by the Urban Atlas, download [CLC](https://land.copernicus.eu/en/products/corine-land-cover/clc2018).
 
-In the follow-up Python scripts, Urban Atlas and CLC are merged. So you will need at least a dummy CLC extract in order for the code to work. CLC can however only be downloaded for the whole of Europe, so it is computationally quite expensive to work with the whole dataset.
+For cases where CLC is not needed, we provide a dummy CLC extract *clc.gpkg* in `sample/db_setup` (as the follow-up scripts require that a CLC database table exists).
 
-For cases were CLC is not needed, we provided a dummy CLC extract *clc.gpkg* in `sample/db_setup`. Just continue with this dummy file and only download the (smaller) UA extracts. It will make handling the data a lot easier.
-
-Regardless of whether you use our dummy or an own CLC file, you need to import it into PostgreSQL with *OSGeo4W Shell*:
+Regardless of whether one uses the dummy or the original CLC file, it is required to import it into PostgreSQL with *OSGeo4W Shell*:
 
 ```jsx
 ogr2ogr -progress -f "PostgreSQL" PG:"host=localhost  dbname=osm  user=postgres password=<your_superuser_password>" -nln public.clc <path_to_gpkg>
@@ -135,28 +133,26 @@ This study uses a mapping from OSM building classes and UA/CLC land use classes 
 
 ## Feature engineering
 
-To perform feature engineering and data preprocessing, execute the script `dataset_pipeline.py` in the folder `sample/dataset`. It executes a couple of SQL-scripts to:
+To perform feature engineering and data preprocessing, execute the script `dataset_pipeline.py` in the folder `sample/dataset`. It executes a couple of SQL-statements to:
 
 - Compute node features for all OSM buildings
 - Arrange buildings/nodes as a graph structure
 
-<aside>
-💡 The result from these steps is saved in the form of PostgreSQL tables.
-</aside>
+The result from these steps is saved in the form of PostgreSQL tables.
 
-The script also creates a graph dataset suitable for *PyTorch Geometric* in the folder `sample/dataset/pyg_ds`.
+The script also creates a graph dataset suitable for *PyTorch Geometric* in *.pt*-format that is saved in the folders `sample/dataset/circ` or `sample/dataset/circ` (depending on `type` which is described in the listing below).
 
-At the top of the script, you can change the following variables:
+At the top of the script, one can change the following variables:
 
-- `x_min, x_max, y_min, y_max:` Define the coordinates of your geographic extract you want to consider. Note that all datasets you downloaded/imported must be available for the entire extract.
+- `x_min, x_max, y_min, y_max:` Define the coordinates of the geographic extract one wants to consider. Note that all datasets must be available for the entire extract.
 - `type`: Localized subgraph generation method. `circ`: distance-based subgraphs created with circular buffers, `n_hop`: subgraphs based on N hops in the graph
-- `buildings_in_graph:` Setting that applies to the `circ` method. Every graph in the dataset roughly consists of the same number of buildings. Set the minimum number of buildings in a graph. For example, if you set this variable to 20, all graphs will contain at least 20 nodes. Some will contain a bit more (depending on the circular buffers around buildings), but there will not be many graphs with significantly more than 20 nodes.
-- `subsample_fraction:` In our approach, graphs are created around labeled OSM buildings. Depending on the size of your extract, you might not want to create graphs around all labeled buildings. Set this variable to a fraction in `(0, 1)` to only create graphs around a random subset of the labeled nodes.
-- `num_layers`: Setting that applied to the `n_hop` method. Number of hops the created dataset has.
+- `buildings_in_graph:` Setting that only applies to the `circ` method. Every graph in the dataset roughly consists of the same number of buildings. Set the minimum number of buildings in a graph. For example, if set to 20, all graphs will contain at least 20 nodes.
+- `subsample_fraction:` In our approach, graphs are created around labeled OSM buildings. Depending on the size of the extract, one might not want to create graphs around all labeled buildings. Set this variable to a fraction in `(0, 1)` to only create graphs around a random subset of the labeled nodes.
+- `hops`: Setting that only applies to the `n_hop` method. Number of hops for the subgraphs.
 
 ## Training GNN/Machine Learning models
 
-After you created a dataset, you can train a machine learning classifier on this dataset. For this purpose, we provide the script `train_classifier.py` in the folder `sample/training`.
+After the *.pt* dataset file was created, one can train a machine learning classifier. For this purpose, we provide the script `train_classifier.py` in the folder `sample/training`.
 
 Run it on Windows via:
 
@@ -182,4 +178,10 @@ The script will:
 - Remove some of the labels from validation and test set as described in Section 5.1.3. in the paper
 - Train a GNN or classical ML model
 
-In the folder `sample/training/config` you find JSON-files to control the hyperparameter of the models (and general parameters related to the creation of localized subgraphs).
+In the folder `sample/training/config` one finds JSON-files to control the hyperparameter of the models.
+
+The file `sample/training/config/general.json` is particularly important as it is used to set the localized subgraph generation method. One can change the following parameters:
+
+- `subgraph_type`: Must correspond to the `type` used in the previous step. If a dataset was created for both subgraph generation methods, any `type` can be used.
+- `hops`: Setting that only applies to the `n_hop` method. Supported numbers of hops: 2 and 4. But has to be less than or equal to the number of hops used when creating the dataset.
+- `only_center_labels`: Determines whether only center node labels or all labels are considered when computing the loss.
