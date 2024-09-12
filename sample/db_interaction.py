@@ -14,7 +14,7 @@ def create_sqlalchemy_engine():
     :return: engine
     """
     user = 'postgres'
-    password = '7593'
+    password = '<your_password>'
     host = 'localhost'
     port = 5432
     database = 'osm'

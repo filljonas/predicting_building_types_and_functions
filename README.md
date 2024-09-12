@@ -78,6 +78,7 @@ After the installation wizard finished, launch *StackBuilder* to install PostGIS
     - `planet_osm_line`
     - `planet_osm_polygon`
     - `planet_osm_roads`
+- During installation of PostgreSQL, a password for the standard user was set. Insert this password in `sample/db_interaction.py` (the script is in this repository).
 
 ### Import Land use data to PostgreSQL
 
