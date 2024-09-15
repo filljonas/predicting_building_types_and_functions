@@ -2,7 +2,10 @@
 
 ## Aim of this repository
 
-The repository contains the code from the paper *Predicting Building Types and Functions at Transnational Scale*. First, we provide an instruction for importing the required datasets into a PostgreSQL database. Second, we provide scripts to perform feature engineering and to build a graph-structured building dataset. Third, we provide code to train GNN/ML models on this dataset with *PyTorch Geometric*.
+The repository contains the code from the paper *Predicting Building Types and Functions at Transnational Scale* in the `sample/` folder.
+It also contains data relevant to the paper in the `data/` folder.
+
+First, we provide an instruction for importing the required datasets into a PostgreSQL database. Second, we provide scripts to perform feature engineering and to build a graph-structured building dataset. Third, we provide code to train GNN/ML models on this dataset with *PyTorch Geometric*.
 
 Execution for smaller extracts (like single cities) is straightforward. Execution for larger extracts (like the European pan-European one from the paper) is also possible, but comes with rather high computational costs.
 
