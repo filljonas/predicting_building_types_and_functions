@@ -63,10 +63,10 @@ def scale_node_features(dataset, deployment, type):
             var.append(scaler.var_[0])
         # Write standardization parameters to JSON for later use during deployment
         data = {'mean': mean, 'std': std, 'var': var}
-        with open(f'../scaling_parameters/{type}.json', 'w') as json_file:
+        with open(f'./sample/scaling_parameters/{type}.json', 'w') as json_file:
             json.dump(data, json_file)
     else:
-        with open('../scaling_parameters/_frac_0p004_nodes_20.json', 'r') as json_file:
+        with open('./sample/scaling_parameters/_frac_0p004_nodes_20.json', 'r') as json_file:
             data = json.load(json_file)
         # Extract the lists from the loaded dictionary
         mean = data['mean']

@@ -1,11 +1,4 @@
-import sys
-import os
 import json
-import argparse
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-repo_dir = os.path.dirname(os.path.dirname(current_dir))
-sys.path.append(repo_dir)
 
 import sample.dataset.gnn_dataset as dsm
 import sample.training.split_dataset as sd
@@ -67,13 +60,10 @@ def train(args=None):
         tegnn.train_and_eval_gnn(data, config, model_name, model_type)
 
 
-def main():
+def main(args) -> None:
     """
     Perform training for a given classifier
     """
-    parser = argparse.ArgumentParser(description="Run classifiers")
-    parser.add_argument('model_type', type=str, help='Type of the model (gat, gcn, transformer, sage, fcnn, dt, rf')
-    args = parser.parse_args()
     train(args=args)
 
 

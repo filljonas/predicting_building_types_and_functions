@@ -4,6 +4,7 @@
  |---------------------------------------------------------------------------------------------------------------------|
 """
 
+import os
 import pandas as pd
 import sqlalchemy
 
@@ -14,7 +15,7 @@ def create_sqlalchemy_engine():
     :return: engine
     """
     user = 'postgres'
-    password = '<your_password>'
+    password = os.getenv('POSTGRESQL_PASSWORD')
     host = 'localhost'
     port = 5432
     database = 'osm'

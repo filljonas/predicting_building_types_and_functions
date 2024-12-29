@@ -1,7 +1,8 @@
 import sample.dataset.create_dataset as cd
 import sample.dataset.gnn_dataset as gnn
 
-if __name__ == '__main__':
+
+def main() -> None:
     # Localized subgraphs generation method
     type = 'circ'
     # Fraction of labeled buildings that are used as center nodes for subgraphs
@@ -13,4 +14,8 @@ if __name__ == '__main__':
     # Rectangular spatial extract in Europe
     x_min, x_max, y_min, y_max = 11.4951, 11.6949, 48.1166, 48.2763  # Extract in Northern Munich
     cd.create_dataset(type, subsample_fraction, hops, buildings_in_graph, x_min, x_max, y_min, y_max)
-    gnn.GNNDataset(f'./{type}/', type)
+    gnn.GNNDataset(f'./data/{type}/', type)
+
+
+if __name__ == '__main__':
+    main()
